@@ -462,199 +462,23 @@ o.prototype.getColor = function (t, r) {
 };
 var _default = o;
 exports.default = _default;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _colorThief = _interopRequireDefault(require("../node_modules/colorthief/dist/color-thief.mjs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//DropzoneJs
-// Dropzone.options.myDropzone = {
-//     thumbnailWidth:"250",
-//     thumbnailHeight:"250",
-//     url: '/post'
-// };
 var colorThief = new _colorThief.default();
-var // where files are dropped + file selector is opened
-dropRegion = document.getElementById("drop-region"),
-    // where images are previewed
-imagePreviewRegion = document.getElementById("image-preview"),
-    getPalette = document.getElementById("getPalette"); // open file selector when clicked on the drop region
+var img = document.querySelector('img');
 
-var fakeInput = document.createElement("input");
-fakeInput.type = "file";
-fakeInput.accept = "image/*";
-fakeInput.multiple = false;
-dropRegion.addEventListener('click', function () {
-  fakeInput.click();
-});
-fakeInput.addEventListener("change", function () {
-  var files = fakeInput.files;
-  handleFiles(files);
-});
-
-function preventDefault(e) {
-  e.preventDefault();
-  e.stopPropagation();
+if (img.complete) {
+  colorThief.getColor(img);
+} else {
+  img.addEventListener('load', function () {
+    colorThief.getColor(img);
+  });
 }
-
-dropRegion.addEventListener('dragenter', preventDefault, false);
-dropRegion.addEventListener('dragleave', preventDefault, false);
-dropRegion.addEventListener('dragover', preventDefault, false);
-dropRegion.addEventListener('drop', preventDefault, false);
-
-function handleDrop(e) {
-  var dt = e.dataTransfer,
-      files = dt.files;
-
-  if (files.length) {
-    handleFiles(files);
-  } else {
-    // check for img
-    var html = dt.getData('text/html'),
-        match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
-        url = match && match[1];
-
-    if (url) {
-      uploadImageFromURL(url);
-      return;
-    }
-  }
-
-  function uploadImageFromURL(url) {
-    var img = new Image();
-    var c = document.createElement("canvas");
-    var ctx = c.getContext("2d");
-
-    img.onload = function () {
-      c.width = this.naturalWidth; // update canvas size to match image
-
-      c.height = this.naturalHeight;
-      ctx.drawImage(this, 0, 0); // draw in image
-
-      c.toBlob(function (blob) {
-        // get content as PNG blob
-        // call our main function
-        handleFiles([blob]);
-      }, "image/png");
-    };
-
-    img.onerror = function () {
-      alert("Error in uploading");
-    };
-
-    img.crossOrigin = ""; // if from different origin
-
-    img.src = url;
-  }
-}
-
-dropRegion.addEventListener('drop', handleDrop, false);
-
-function handleFiles(files) {
-  for (var i = 0, len = files.length; i < len; i++) {
-    if (validateImage(files[i])) previewAnduploadImage(files[i]);
-  }
-}
-
-function validateImage(image) {
-  // check the type
-  var validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-  if (validTypes.indexOf(image.type) === -1) {
-    alert("Invalid File Type");
-    return false;
-  } // check the size
-
-
-  var maxSizeInBytes = 10e6; // 10MB
-
-  if (image.size > maxSizeInBytes) {
-    alert("File too large");
-    return false;
-  }
-
-  return true;
-}
-
-function previewAnduploadImage(image) {
-  // container
-  var imgView = document.createElement("div");
-  imgView.className = "image-view";
-  imagePreviewRegion.appendChild(imgView); // previewing image
-
-  var img = document.createElement("img");
-  img.classList.add('source-image');
-  imgView.appendChild(img);
-  getPalette.hidden = false;
-  var dropMessage = document.getElementsByClassName('drop-message')[0];
-  dropMessage.style.display = "none"; // progress overlay
-  // var overlay = document.createElement("div");
-  // overlay.className = "overlay";
-  // imgView.appendChild(overlay);
-  // read the image...
-
-  var reader = new FileReader();
-
-  reader.onload = function (e) {
-    img.src = e.target.result;
-  };
-
-  reader.readAsDataURL(image); // create FormData
-
-  var formData = new FormData();
-  formData.append('image', image); // upload the image
-
-  var uploadLocation = 'https://api.imgbb.com/1/upload';
-  formData.append('key', 'bb63bee9d9846c8d5b7947bcdb4b3573');
-  var ajax = new XMLHttpRequest();
-  ajax.open("POST", uploadLocation, true);
-
-  ajax.onreadystatechange = function (e) {
-    if (ajax.readyState === 4) {
-      if (ajax.status === 200) {// done!
-      } else {// error!
-        }
-    }
-  };
-
-  ajax.upload.onprogress = function (e) {
-    // change progress
-    var perc = e.loaded / e.total * 100 || 100,
-        width = 100 - perc;
-  };
-
-  ajax.send(formData);
-}
-
-getPalette.addEventListener('click', function (e) {
-  var colorThief = new _colorThief.default();
-  var image = document.querySelector('.source-image');
-
-  if (image.complete) {
-    console.log(colorThief.getPalette(image, 5));
-    var paletteValue = colorThief.getPalette(image, 5);
-    var hexValue = [];
-    paletteValue.forEach(function (item) {
-      var value = rgbToHex(item[0], item[1], item[2]);
-      hexValue.push(value);
-    });
-    var value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
-    console.log(hexValue);
-  } else {
-    image.addEventListener('load', function () {
-      colorThief.getPalette(image, 5);
-    });
-  }
-});
-
-var rgbToHex = function rgbToHex(r, g, b) {
-  return '#' + [r, g, b].map(function (x) {
-    var hex = x.toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
-  }).join('');
-};
 },{"../node_modules/colorthief/dist/color-thief.mjs":"../node_modules/colorthief/dist/color-thief.mjs"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -859,5 +683,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
-//# sourceMappingURL=/main.1f19ae8e.js.map
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+//# sourceMappingURL=/src.e31bb0bc.js.map

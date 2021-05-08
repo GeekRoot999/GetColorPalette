@@ -5,9 +5,10 @@
 //     url: '/post'
 // };
 
-import ColorThief from '../node_modules/colorthief/dist/color-thief.mjs'
 
-const colorThief = new ColorThief();
+import ColorThief from '../node_modules/colorthief/dist/color-thief.mjs';
+
+const colorThief = new ColorThief();  
 
 var // where files are dropped + file selector is opened
   dropRegion = document.getElementById("drop-region"),
@@ -162,14 +163,27 @@ function previewAnduploadImage(image) {
 }
 
 getPalette.addEventListener('click', function (e) {
-  alert("Hey Duffer");
-  const srcimg = document.querySelector('source-image');
+  const colorThief = new ColorThief();
+  const image = document.querySelector('.source-image');
 
-  if (srcimg.complete) {
-    colorThief.getColor(srcimg);
+  if (image.complete) {
+    console.log(colorThief.getPalette(image,5));
+    const paletteValue = colorThief.getPalette(image,5);
+    const hexValue = [];
+    paletteValue.forEach(item => {
+      const value = rgbToHex(item[0], item[1], item[2])
+      hexValue.push(value);
+    })
+    const value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
+    console.log(hexValue);
   } else {
     image.addEventListener('load', function() {
-      colorThief.getColor(srcimg);
+      colorThief.getPalette(image, 5)
     });
   }
 });
+
+const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+  const hex = x.toString(16)
+  return hex.length === 1 ? '0' + hex : hex
+}).join('')

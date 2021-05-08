@@ -15,6 +15,10 @@ body {
   font-family: "Mulish", open sans, Helvetica, arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
 .container {
   padding: 10px;
   display: -webkit-box;
