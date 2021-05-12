@@ -32,7 +32,7 @@ a{
       padding: 10px 0;
     }
     .app-explore {
-      p {
+      a {
         font-size: 14px;
         font-weight: 500;
         color: #4285f4;
@@ -176,6 +176,56 @@ a{
         border-radius: 20px;
         padding: 12px 30px;
         cursor: pointer;
+      }
+    }
+  }
+  .palette-colors{
+    &.hidden{
+      display: none
+    }
+    background: #E5E5E5;
+    border: 1px solid #4285F4;
+    border-radius: 10px;
+    display: flex;
+    width: 40%;
+    flex-wrap: wrap;
+    padding: 15px;
+    margin: 0 auto;
+    align-items: center;
+    .dominant-color-generator{
+      margin-right: 40px;
+      margin-bottom: 10px;
+      span{
+        color: #88A3B2;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 12px;
+      }
+      .dominant-color{
+        width: 60px;
+        height: 60px;
+        // background: #B39E67;
+        border-radius: 50px;
+        margin-top: 10px;
+      }
+    }
+    .color-palette-generator{
+      margin-right: 40px;
+      span{
+        color: #88A3B2;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 12px;
+        display: block;
+      }
+      .color-palette{
+        width: 45px;
+        height: 45px;
+        // background: #B39E67;
+        border-radius: 50px;
+        display: inline-block;
+        margin-right: 10px;
+        margin-top: 10px;
       }
     }
   }

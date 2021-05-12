@@ -16,6 +16,9 @@ var // where files are dropped + file selector is opened
   imagePreviewRegion = document.getElementById("image-preview"),
   getPalette = document.getElementById("getPalette");
 
+  var dominantColorGenerator = document.querySelector(".dominant-color-generator");
+  var colorPaletteGenerator = document.querySelector(".color-palette-generator");
+  var paletteColors = document.getElementById("palette-colors");
 
 // open file selector when clicked on the drop region
 var fakeInput = document.createElement("input");
@@ -134,32 +137,32 @@ function previewAnduploadImage(image) {
   reader.readAsDataURL(image);
 
   // create FormData
-  var formData = new FormData();
-  formData.append('image', image);
+  // var formData = new FormData();
+  // formData.append('image', image);
 
-  // upload the image
-  var uploadLocation = 'https://api.imgbb.com/1/upload';
-  formData.append('key', 'bb63bee9d9846c8d5b7947bcdb4b3573');
+  // // upload the image
+  // var uploadLocation = 'https://api.imgbb.com/1/upload';
+  // formData.append('key', 'bb63bee9d9846c8d5b7947bcdb4b3573');
 
-  var ajax = new XMLHttpRequest();
-  ajax.open("POST", uploadLocation, true);
+  // var ajax = new XMLHttpRequest();
+  // ajax.open("POST", uploadLocation, true);
 
-  ajax.onreadystatechange = function (e) {
-    if (ajax.readyState === 4) {
-      if (ajax.status === 200) {
-        // done!
-      } else {
-        // error!
-      }
-    }
-  }
+  // ajax.onreadystatechange = function (e) {
+  //   if (ajax.readyState === 4) {
+  //     if (ajax.status === 200) {
+  //       // done!
+  //     } else {
+  //       // error!
+  //     }
+  //   }
+  // }
 
-  ajax.upload.onprogress = function (e) {
-    // change progress
-    var perc = (e.loaded / e.total * 100) || 100,
-      width = 100 - perc;
-  }
-  ajax.send(formData);
+  // ajax.upload.onprogress = function (e) {
+  //   // change progress
+  //   var perc = (e.loaded / e.total * 100) || 100,
+  //     width = 100 - perc;
+  // }
+  // ajax.send(formData);
 }
 
 getPalette.addEventListener('click', function (e) {
@@ -171,11 +174,32 @@ getPalette.addEventListener('click', function (e) {
     const paletteValue = colorThief.getPalette(image,5);
     const hexValue = [];
     paletteValue.forEach(item => {
+      // console.log(paletteValue[0], "item 1");
       const value = rgbToHex(item[0], item[1], item[2])
       hexValue.push(value);
+      console.log(value);
     })
-    const value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
-    console.log(hexValue);
+    // const value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
+    for(let i = 0; i < hexValue.length; i++){
+      if(hexValue[i] == hexValue[0]){
+        var dominantColor = document.createElement("div");
+        dominantColor.classList.add("dominant-color");
+        dominantColor.style.backgroundColor = hexValue[i];
+        dominantColorGenerator.appendChild(dominantColor);
+        var colorGenerator = document.createElement("div");
+        colorGenerator.classList.add("color-palette");
+        colorGenerator.style.backgroundColor = hexValue[i];
+        colorPaletteGenerator.appendChild(colorGenerator);
+      }
+      else{  
+        var colorGenerator = document.createElement("div");
+        colorGenerator.classList.add("color-palette");
+        colorGenerator.style.backgroundColor = hexValue[i];
+        colorPaletteGenerator.appendChild(colorGenerator);
+      }
+    }
+    getPalette.hidden="true";
+    paletteColors.classList.remove("hidden");
   } else {
     image.addEventListener('load', function() {
       colorThief.getPalette(image, 5)

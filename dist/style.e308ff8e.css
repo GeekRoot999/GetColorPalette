@@ -49,7 +49,7 @@ a {
   }
 }
 
-.container .header .app-explore p {
+.container .header .app-explore a {
   font-size: 14px;
   font-weight: 500;
   color: #4285f4;
@@ -57,7 +57,7 @@ a {
 }
 
 @media screen and (max-width: 600px) {
-  .container .header .app-explore p {
+  .container .header .app-explore a {
     max-width: 50px;
   }
 }
@@ -212,6 +212,67 @@ a {
   border-radius: 20px;
   padding: 12px 30px;
   cursor: pointer;
+}
+
+.container .palette-colors {
+  background: #E5E5E5;
+  border: 1px solid #4285F4;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 40%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 15px;
+  margin: 0 auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container .palette-colors.hidden {
+  display: none;
+}
+
+.container .palette-colors .dominant-color-generator {
+  margin-right: 40px;
+  margin-bottom: 10px;
+}
+
+.container .palette-colors .dominant-color-generator span {
+  color: #88A3B2;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+}
+
+.container .palette-colors .dominant-color-generator .dominant-color {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+
+.container .palette-colors .color-palette-generator {
+  margin-right: 40px;
+}
+
+.container .palette-colors .color-palette-generator span {
+  color: #88A3B2;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  display: block;
+}
+
+.container .palette-colors .color-palette-generator .color-palette {
+  width: 45px;
+  height: 45px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 10px;
 }
 
 
