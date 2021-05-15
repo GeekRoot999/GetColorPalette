@@ -469,12 +469,6 @@ var _colorThief = _interopRequireDefault(require("../node_modules/colorthief/dis
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//DropzoneJs
-// Dropzone.options.myDropzone = {
-//     thumbnailWidth:"250",
-//     thumbnailHeight:"250",
-//     url: '/post'
-// };
 var colorThief = new _colorThief.default();
 var // where files are dropped + file selector is opened
 dropRegion = document.getElementById("drop-region"),
@@ -591,12 +585,9 @@ function previewAnduploadImage(image) {
   img.classList.add('source-image');
   imgView.appendChild(img);
   getPalette.hidden = false;
+  paletteColors.classList.add('hidden');
   var dropMessage = document.getElementsByClassName('drop-message')[0];
-  dropMessage.style.display = "none"; // progress overlay
-  // var overlay = document.createElement("div");
-  // overlay.className = "overlay";
-  // imgView.appendChild(overlay);
-  // read the image...
+  dropMessage.style.display = "none"; // read the image...
 
   var reader = new FileReader();
 
@@ -604,29 +595,7 @@ function previewAnduploadImage(image) {
     img.src = e.target.result;
   };
 
-  reader.readAsDataURL(image); // create FormData
-  // var formData = new FormData();
-  // formData.append('image', image);
-  // // upload the image
-  // var uploadLocation = 'https://api.imgbb.com/1/upload';
-  // formData.append('key', 'bb63bee9d9846c8d5b7947bcdb4b3573');
-  // var ajax = new XMLHttpRequest();
-  // ajax.open("POST", uploadLocation, true);
-  // ajax.onreadystatechange = function (e) {
-  //   if (ajax.readyState === 4) {
-  //     if (ajax.status === 200) {
-  //       // done!
-  //     } else {
-  //       // error!
-  //     }
-  //   }
-  // }
-  // ajax.upload.onprogress = function (e) {
-  //   // change progress
-  //   var perc = (e.loaded / e.total * 100) || 100,
-  //     width = 100 - perc;
-  // }
-  // ajax.send(formData);
+  reader.readAsDataURL(image);
 }
 
 getPalette.addEventListener('click', function (e) {
@@ -705,7 +674,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50537" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55879" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

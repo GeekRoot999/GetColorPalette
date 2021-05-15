@@ -11,7 +11,7 @@ body {
 }
 
 body {
-  background: #e5e5e5;
+  background: #E5E5E5;
   font-family: "Mulish", open sans, Helvetica, arial, sans-serif;
 }
 
@@ -52,7 +52,7 @@ a {
 .container .header .app-explore a {
   font-size: 14px;
   font-weight: 500;
-  color: #4285f4;
+  color: #4285F4;
   line-height: 18px;
 }
 
@@ -69,7 +69,7 @@ a {
 
 .container .header .app-share a {
   display: inline-block;
-  color: #4285f4;
+  color: #4285F4;
   font-size: 14px;
   text-decoration: none;
 }
@@ -98,9 +98,9 @@ a {
   background: linear-gradient(109.03deg, #dfe1e2 -53.53%, #fdffff 138.3%);
   border-radius: 2px;
   -webkit-box-shadow: -30px -30px 60px 0px #ffffff4d;
-          box-shadow: -30px -30px 60px 0px #ffffff4d;
+  box-shadow: -30px -30px 60px 0px #ffffff4d;
   -webkit-box-shadow: 30px 30px 60px 0px #c9cbcd4d;
-          box-shadow: 30px 30px 60px 0px #c9cbcd4d;
+  box-shadow: 30px 30px 60px 0px #c9cbcd4d;
   width: 900px;
   height: 450px;
   padding: 20px;
@@ -109,11 +109,12 @@ a {
   -webkit-transition: 0.3s;
   transition: 0.3s;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .container .app-body #drop-region:hover {
-  -webkit-box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 45px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 45px 0 rgba(0, 0, 0, 0.1);
 }
 
 .container .app-body #drop-region .drop-message {
@@ -127,7 +128,7 @@ a {
       -ms-flex-align: center;
           align-items: center;
   font-size: 16px;
-  color: #4285f4;
+  color: #4285F4;
   height: 100%;
 }
 
@@ -157,7 +158,7 @@ a {
 .container .app-body #drop-region #image-preview .option-buttons .change-image {
   background: rgba(66, 133, 244, 0.2);
   border: 1px solid #4285F4;
-  color: #4285f4;
+  color: #4285F4;
   padding: 8px 16px;
   outline: none;
   -webkit-box-shadow: none;
@@ -189,6 +190,10 @@ a {
   height: 410px;
 }
 
+.container .app-body #drop-region #image-preview .image-view ~ .image-view {
+  display: none;
+}
+
 .container .app-body #drop-region #image-preview .image-view img {
   max-width: 100%;
   width: 100%;
@@ -203,8 +208,8 @@ a {
 }
 
 .container .app-body .action-buttons .get_palette {
-  color: #ffffff;
-  background-color: #4285f4;
+  color: #FFF;
+  background-color: #4285F4;
   border: none;
   outline: none;
   -webkit-box-shadow: none;

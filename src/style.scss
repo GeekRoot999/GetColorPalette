@@ -1,5 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+//Colors
+
+$grey : #E5E5E5;
+$blue : #4285F4;
+$bluish-grey : #88A3B2;
+$red : #EA4335;
+$white : #FFF;
+
+//box-shadow
+@mixin shadow($x-axis, $y-axis, $blur, $spread, $color) {
+  -webkit-box-shadow: $x-axis $y-axis $blur $spread $color;
+  -moz-box-shadow: $x-axis $y-axis $blur $spread $color;
+  box-shadow: $x-axis $y-axis $blur $spread $color;
+}
+
+//border-radius
+@mixin b-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -11,7 +33,7 @@ body {
 }
 
 body {
-  background: #e5e5e5;
+  background: $grey ;
   font-family: "Mulish", open sans, Helvetica, arial, sans-serif;
 }
 
@@ -35,7 +57,7 @@ a{
       a {
         font-size: 14px;
         font-weight: 500;
-        color: #4285f4;
+        color: $blue;
         line-height: 18px;
         @media screen and (max-width: 600px) {
           max-width: 50px;
@@ -51,7 +73,7 @@ a{
     .app-share {
       a {
         display: inline-block;
-        color: #4285f4;
+        color: $blue;
         font-size: 14px;
         text-decoration: none;
         i {
@@ -70,32 +92,11 @@ a{
     @media screen and (max-width: 1024px) {
       padding: 0;
     }
-    // .card{
-    //     width: 900px;
-    //     height: 450px;
-    //     margin: 0 auto;
-    //     .dropzone{
-    //         box-shadow: -30px -30px 60px 0px #FFFFFF4D;
-    //         box-shadow: 30px 30px 60px 0px #C9CBCD4D;
-    //         background: linear-gradient(109.03deg, #DFE1E2 -53.53%, #FDFFFF 138.3%);
-    //         border: none;
-    //         height: 100%;
-    //         position: relative;
-    //         .dz-message{
-    //             position: absolute;
-    //             top: 50%;
-    //             left: 50%;
-    //             transform: translate(-50%, -50%);
-    //             margin: 0;
-    //         }
-    //     }
-    // }
-
     #drop-region {
       background: linear-gradient(109.03deg, #dfe1e2 -53.53%, #fdffff 138.3%);
-      border-radius: 2px;
-      box-shadow: -30px -30px 60px 0px #ffffff4d;
-      box-shadow: 30px 30px 60px 0px #c9cbcd4d;
+      @include b-radius(2px);
+      @include shadow(-30px, -30px, 60px, 0px, #ffffff4d);
+      @include shadow(30px, 30px, 60px, 0px, #c9cbcd4d);
       width: 900px;
       height: 450px;
       padding: 20px;
@@ -103,15 +104,16 @@ a{
       cursor: pointer;
       transition: 0.3s;
       margin: 0 auto;
+      overflow: hidden;
       &:hover {
-        box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
+        @include shadow(0, 0, 45px, 0, rgba(0, 0, 0, 0.1));
       }
       .drop-message {
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 16px;
-        color: #4285f4;
+        color: $blue;
         height: 100%;
       }
       #image-preview {
@@ -128,24 +130,24 @@ a{
           flex-wrap: wrap;
           .change-image{
             background: rgba(66, 133, 244, 0.2);
-            border: 1px solid #4285F4;
-            color: #4285f4;
+            border: 1px solid $blue;
+            color: $blue;
             padding: 8px 16px;
             outline: none;
             box-shadow: none;
             cursor: pointer;
-            border-radius: 20px;
+            @include b-radius(20px);
             margin-right: 5px;
           }
           .remove-image{
             background: rgba(234, 67, 53, 0.2);
-            border: 1px solid #EA4335;
-            color: #EA4335;
+            border: 1px solid $red;
+            color: $red;
             padding: 8px 16px;
             outline: none;
             box-shadow: none;
             cursor: pointer;
-            border-radius: 20px;
+            @include b-radius(20px);
             margin-left: 5px;
           }
           &:hover {
@@ -155,6 +157,9 @@ a{
         }
         .image-view {
           height: 410px;
+          ~ .image-view{
+            display: none;
+          }
           img {
             max-width: 100%;
             width: 100%;
@@ -168,12 +173,12 @@ a{
       text-align: center;
       margin-top: 25px;
       .get_palette {
-        color: #ffffff;
-        background-color: #4285f4;
+        color: $white;
+        background-color: $blue;
         border: none;
         outline: none;
         box-shadow: none;
-        border-radius: 20px;
+        @include b-radius(20px);
         padding: 12px 30px;
         cursor: pointer;
       }
@@ -183,9 +188,9 @@ a{
     &.hidden{
       display: none
     }
-    background: #E5E5E5;
-    border: 1px solid #4285F4;
-    border-radius: 10px;
+    background: $grey;
+    border: 1px solid $blue;
+    @include b-radius(10px);
     display: flex;
     width: 40%;
     flex-wrap: wrap;
@@ -196,7 +201,7 @@ a{
       margin-right: 40px;
       margin-bottom: 10px;
       span{
-        color: #88A3B2;
+        color: $bluish-grey;
         font-size: 12px;
         font-weight: 500;
         line-height: 12px;
@@ -204,15 +209,14 @@ a{
       .dominant-color{
         width: 60px;
         height: 60px;
-        // background: #B39E67;
-        border-radius: 50px;
+        @include b-radius(50px);
         margin-top: 10px;
       }
     }
     .color-palette-generator{
       margin-right: 40px;
       span{
-        color: #88A3B2;
+        color: $bluish-grey;
         font-size: 12px;
         font-weight: 500;
         line-height: 12px;
@@ -221,8 +225,7 @@ a{
       .color-palette{
         width: 45px;
         height: 45px;
-        // background: #B39E67;
-        border-radius: 50px;
+        @include b-radius(50px);
         display: inline-block;
         margin-right: 10px;
         margin-top: 10px;

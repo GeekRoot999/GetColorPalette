@@ -1,10 +1,3 @@
-//DropzoneJs
-// Dropzone.options.myDropzone = {
-//     thumbnailWidth:"250",
-//     thumbnailHeight:"250",
-//     url: '/post'
-// };
-
 
 import ColorThief from '../node_modules/colorthief/dist/color-thief.mjs';
 
@@ -121,13 +114,9 @@ function previewAnduploadImage(image) {
   img.classList.add('source-image')
   imgView.appendChild(img);
   getPalette.hidden = false;
+  paletteColors.classList.add('hidden')
   var dropMessage = document.getElementsByClassName('drop-message')[0];
   dropMessage.style.display = "none";
-  
-  // progress overlay
-  // var overlay = document.createElement("div");
-  // overlay.className = "overlay";
-  // imgView.appendChild(overlay);
 
   // read the image...
   var reader = new FileReader();
@@ -135,34 +124,6 @@ function previewAnduploadImage(image) {
     img.src = e.target.result;
   }
   reader.readAsDataURL(image);
-
-  // create FormData
-  // var formData = new FormData();
-  // formData.append('image', image);
-
-  // // upload the image
-  // var uploadLocation = 'https://api.imgbb.com/1/upload';
-  // formData.append('key', 'bb63bee9d9846c8d5b7947bcdb4b3573');
-
-  // var ajax = new XMLHttpRequest();
-  // ajax.open("POST", uploadLocation, true);
-
-  // ajax.onreadystatechange = function (e) {
-  //   if (ajax.readyState === 4) {
-  //     if (ajax.status === 200) {
-  //       // done!
-  //     } else {
-  //       // error!
-  //     }
-  //   }
-  // }
-
-  // ajax.upload.onprogress = function (e) {
-  //   // change progress
-  //   var perc = (e.loaded / e.total * 100) || 100,
-  //     width = 100 - perc;
-  // }
-  // ajax.send(formData);
 }
 
 getPalette.addEventListener('click', function (e) {
