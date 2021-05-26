@@ -97,8 +97,8 @@ a{
       @include b-radius(2px);
       @include shadow(-30px, -30px, 60px, 0px, #ffffff4d);
       @include shadow(30px, 30px, 60px, 0px, #c9cbcd4d);
-      width: 900px;
-      height: 450px;
+      width: 75%;
+      height: 25rem;
       padding: 20px;
       text-align: center;
       cursor: pointer;
@@ -119,15 +119,38 @@ a{
       #image-preview {
         margin-top: 0px;
         position: relative;
+        height: 100%;
+        .image-view {
+          // height: 410px;
+          height: 100%;
+          &:hover{
+             & + .option-buttons{
+              background: rgba(0, 0, 0, .4);
+              opacity: 1;
+            }
+          }
+          ~ .image-view{
+            display: none;
+          }
+          img {
+            max-width: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
         .option-buttons{
           position: absolute;
+          top: 0;
+          // left: 50%;
+          // transform: translate(-50%, -50%);
           opacity: 0;
           height: 100%;
           width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
+          // display: flex;
+          // justify-content: center;
+          // align-items: center;
+          // flex-wrap: wrap;
           .change-image{
             background: rgba(66, 133, 244, 0.2);
             border: 1px solid $blue;
@@ -150,23 +173,12 @@ a{
             @include b-radius(20px);
             margin-left: 5px;
           }
-          &:hover {
-            background: rgba(0, 0, 0, .4);
-            opacity: 1;
-          }
+          // &:hover {
+          //   background: rgba(0, 0, 0, .4);
+          //   opacity: 1;
+          // }
         }
-        .image-view {
-          height: 410px;
-          ~ .image-view{
-            display: none;
-          }
-          img {
-            max-width: 100%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
+        
       }
     }
     .action-buttons {
@@ -192,11 +204,14 @@ a{
     border: 1px solid $blue;
     @include b-radius(10px);
     display: flex;
-    width: 40%;
     flex-wrap: wrap;
     padding: 15px;
     margin: 0 auto;
     align-items: center;
+    @media screen and (max-width: 576px){
+      margin: 0;
+      width: 100%;
+    }
     .dominant-color-generator{
       margin-right: 40px;
       margin-bottom: 10px;

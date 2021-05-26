@@ -5,8 +5,10 @@
     "es6": true,
     "worker": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 10,
-    "sourceType": "script"
+    "ecmaVersion": 11,
+    "sourceType": "script",
+    "allowImportExportEverywhere": true
   }
 }

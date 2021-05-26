@@ -1,7 +1,7 @@
 
 import ColorThief from '../node_modules/colorthief/dist/color-thief.mjs';
 
-const colorThief = new ColorThief();  
+const colorThief = new ColorThief();
 
 var // where files are dropped + file selector is opened
   dropRegion = document.getElementById("drop-region"),
@@ -12,6 +12,7 @@ var // where files are dropped + file selector is opened
   var dominantColorGenerator = document.querySelector(".dominant-color-generator");
   var colorPaletteGenerator = document.querySelector(".color-palette-generator");
   var paletteColors = document.getElementById("palette-colors");
+  var imgView = document.getElementsByClassName("img-view")[0];
 
 // open file selector when clicked on the drop region
 var fakeInput = document.createElement("input");
@@ -108,6 +109,7 @@ function previewAnduploadImage(image) {
   var imgView = document.createElement("div");
   imgView.className = "image-view";
   imagePreviewRegion.appendChild(imgView);
+  imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]);
 
   // previewing image
   var img = document.createElement("img");

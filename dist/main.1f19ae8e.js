@@ -477,7 +477,8 @@ imagePreviewRegion = document.getElementById("image-preview"),
     getPalette = document.getElementById("getPalette");
 var dominantColorGenerator = document.querySelector(".dominant-color-generator");
 var colorPaletteGenerator = document.querySelector(".color-palette-generator");
-var paletteColors = document.getElementById("palette-colors"); // open file selector when clicked on the drop region
+var paletteColors = document.getElementById("palette-colors");
+var imgView = document.getElementsByClassName("img-view")[0]; // open file selector when clicked on the drop region
 
 var fakeInput = document.createElement("input");
 fakeInput.type = "file";
@@ -579,7 +580,8 @@ function previewAnduploadImage(image) {
   // container
   var imgView = document.createElement("div");
   imgView.className = "image-view";
-  imagePreviewRegion.appendChild(imgView); // previewing image
+  imagePreviewRegion.appendChild(imgView);
+  imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]); // previewing image
 
   var img = document.createElement("img");
   img.classList.add('source-image');
@@ -674,7 +676,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55879" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53256" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
