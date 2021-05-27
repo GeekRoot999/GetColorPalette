@@ -240,6 +240,7 @@ a {
 .container .palette-colors .dominant-color-generator {
   margin-right: 40px;
   margin-bottom: 10px;
+  max-height: 90px;
 }
 
 .container .palette-colors .dominant-color-generator span {
@@ -258,6 +259,7 @@ a {
 
 .container .palette-colors .color-palette-generator {
   margin-right: 40px;
+  min-height: 90px;
 }
 
 .container .palette-colors .color-palette-generator span {
@@ -274,7 +276,7 @@ a {
   border-radius: 50px;
   display: inline-block;
   margin-right: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 

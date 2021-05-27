@@ -12,19 +12,18 @@ var // where files are dropped + file selector is opened
   var dominantColorGenerator = document.querySelector(".dominant-color-generator");
   var colorPaletteGenerator = document.querySelector(".color-palette-generator");
   var paletteColors = document.getElementById("palette-colors");
-  var imgView = document.getElementsByClassName("img-view")[0];
 
 // open file selector when clicked on the drop region
-var fakeInput = document.createElement("input");
-fakeInput.type = "file";
-fakeInput.accept = "image/*";
-fakeInput.multiple = false;
+var inputFile = document.createElement("input");
+inputFile.type = "file";
+inputFile.accept = "image/*";
+inputFile.multiple = false;
 dropRegion.addEventListener('click', function () {
-  fakeInput.click();
+  inputFile.click();
 });
 
-fakeInput.addEventListener("change", function () {
-  var files = fakeInput.files;
+inputFile.addEventListener("change", function () {
+  var files = inputFile.files;
   handleFiles(files);
 });
 
@@ -89,16 +88,9 @@ function handleFiles(files) {
 
 function validateImage(image) {
   // check the type
-  var validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  var validTypes = ['image/jpeg','image/jpg','image/png','image/gif','image/svg+xml'];
   if (validTypes.indexOf(image.type) === -1) {
-    alert("Invalid File Type");
-    return false;
-  }
-
-  // check the size
-  var maxSizeInBytes = 10e6; // 10MB
-  if (image.size > maxSizeInBytes) {
-    alert("File too large");
+    alert("File type is not supported!");
     return false;
   }
   return true;
