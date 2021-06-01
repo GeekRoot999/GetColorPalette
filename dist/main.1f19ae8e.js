@@ -477,29 +477,33 @@ imagePreviewRegion = document.getElementById("image-preview"),
     getPalette = document.getElementById("getPalette");
 var dominantColorGenerator = document.querySelector(".dominant-color-generator");
 var colorPaletteGenerator = document.querySelector(".color-palette-generator");
-var paletteColors = document.getElementById("palette-colors"); // open file selector when clicked on the drop region
-
-var inputFile = document.createElement("input");
-inputFile.type = "file";
-inputFile.accept = "image/*";
-inputFile.multiple = false;
-dropRegion.addEventListener('click', function () {
-  inputFile.click();
-});
-inputFile.addEventListener("change", function () {
-  var files = inputFile.files;
-  handleFiles(files);
-});
-
-function preventDefault(e) {
-  e.preventDefault();
-  e.stopPropagation();
-}
-
+var paletteColors = document.getElementById("palette-colors");
 dropRegion.addEventListener('dragenter', preventDefault, false);
 dropRegion.addEventListener('dragleave', preventDefault, false);
 dropRegion.addEventListener('dragover', preventDefault, false);
 dropRegion.addEventListener('drop', preventDefault, false);
+
+function preventDefault(e) {
+  e.preventDefault();
+  e.stopPropagation();
+} // open file selector when clicked on the drop region
+
+
+var inputFile = document.createElement("input");
+inputFile.type = "file";
+inputFile.accept = "image/*";
+dropRegion.addEventListener('click', function () {
+  inputFile.click();
+});
+inputFile.addEventListener("change", changeInputState);
+
+function changeInputState() {
+  var files = inputFile.files;
+  handleFiles(files);
+}
+
+;
+dropRegion.addEventListener('drop', handleDrop, false);
 
 function handleDrop(e) {
   var dt = e.dataTransfer,
@@ -508,6 +512,7 @@ function handleDrop(e) {
   if (files.length) {
     handleFiles(files);
   } else {
+    // alert('Allowed to upload one image at a time');
     // check for img
     var html = dt.getData('text/html'),
         match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
@@ -547,11 +552,11 @@ function handleDrop(e) {
   }
 }
 
-dropRegion.addEventListener('drop', handleDrop, false);
-
 function handleFiles(files) {
   for (var i = 0, len = files.length; i < len; i++) {
-    if (validateImage(files[i])) previewAnduploadImage(files[i]);
+    if (validateImage(files[i])) {
+      previewAnduploadImage(files[i]);
+    }
   }
 }
 
@@ -567,63 +572,85 @@ function validateImage(image) {
   return true;
 }
 
-function previewAnduploadImage(image) {
+var createImageDivContainer = function createImageDivContainer() {
   // container
   var imgView = document.createElement("div");
   imgView.className = "image-view";
   imagePreviewRegion.appendChild(imgView);
-  imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]); // previewing image
+  imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]);
+  return imgView;
+};
 
+var previewImage = function previewImage(imageDivContainer) {
   var img = document.createElement("img");
   img.classList.add('source-image');
-  imgView.appendChild(img);
+  imageDivContainer.appendChild(img);
   getPalette.hidden = false;
   paletteColors.classList.add('hidden');
-  var dropMessage = document.getElementsByClassName('drop-message')[0];
-  dropMessage.style.display = "none"; // read the image...
+  document.getElementsByClassName('drop-message')[0].style.display = "none";
+  return img;
+};
+
+function previewAnduploadImage(image) {
+  //image container div is created
+  var imageDivContainer = createImageDivContainer(); // preview image
+
+  var imgPreview = previewImage(imageDivContainer); // read the image...
 
   var reader = new FileReader();
 
   reader.onload = function (e) {
-    img.src = e.target.result;
+    imgPreview.src = e.target.result;
   };
 
   reader.readAsDataURL(image);
+  dropRegion.removeEventListener('click', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  });
+  inputFile.removeEventListener("change", changeInputState);
 }
+
+var dominantColorHolder = function dominantColorHolder(value) {
+  var dominantColor = document.createElement("div");
+  dominantColor.classList.add("dominant-color");
+  dominantColor.style.backgroundColor = value;
+  dominantColorGenerator.appendChild(dominantColor);
+};
+
+var colorPaletteHolder = function colorPaletteHolder(value) {
+  var colorGenerator = document.createElement("div");
+  colorGenerator.classList.add("color-palette");
+  colorGenerator.style.backgroundColor = value;
+  colorPaletteGenerator.appendChild(colorGenerator);
+};
+
+var insertPalette = function insertPalette(hexValue) {
+  for (var i = 0; i < hexValue.length; i++) {
+    if (hexValue[i] == hexValue[0]) {
+      dominantColorHolder(hexValue[i]);
+      colorPaletteHolder(hexValue[i]);
+    } else {
+      colorPaletteHolder(hexValue[i]);
+    }
+  }
+};
 
 getPalette.addEventListener('click', function (e) {
   var colorThief = new _colorThief.default();
   var image = document.querySelector('.source-image');
 
   if (image.complete) {
-    console.log(colorThief.getPalette(image, 5));
+    // console.log(colorThief.getPalette(image,5));
     var paletteValue = colorThief.getPalette(image, 5);
     var hexValue = [];
     paletteValue.forEach(function (item) {
-      // console.log(paletteValue[0], "item 1");
       var value = rgbToHex(item[0], item[1], item[2]);
       hexValue.push(value);
-      console.log(value);
     }); // const value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
+    //To place the HexValue inside the specific Div
 
-    for (var i = 0; i < hexValue.length; i++) {
-      if (hexValue[i] == hexValue[0]) {
-        var dominantColor = document.createElement("div");
-        dominantColor.classList.add("dominant-color");
-        dominantColor.style.backgroundColor = hexValue[i];
-        dominantColorGenerator.appendChild(dominantColor);
-        var colorGenerator = document.createElement("div");
-        colorGenerator.classList.add("color-palette");
-        colorGenerator.style.backgroundColor = hexValue[i];
-        colorPaletteGenerator.appendChild(colorGenerator);
-      } else {
-        var colorGenerator = document.createElement("div");
-        colorGenerator.classList.add("color-palette");
-        colorGenerator.style.backgroundColor = hexValue[i];
-        colorPaletteGenerator.appendChild(colorGenerator);
-      }
-    }
-
+    insertPalette(hexValue);
     getPalette.hidden = "true";
     paletteColors.classList.remove("hidden");
   } else {
@@ -667,7 +694,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54055" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49888" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

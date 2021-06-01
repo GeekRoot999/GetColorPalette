@@ -13,29 +13,32 @@ var // where files are dropped + file selector is opened
   var colorPaletteGenerator = document.querySelector(".color-palette-generator");
   var paletteColors = document.getElementById("palette-colors");
 
-// open file selector when clicked on the drop region
-var inputFile = document.createElement("input");
-inputFile.type = "file";
-inputFile.accept = "image/*";
-inputFile.multiple = false;
-dropRegion.addEventListener('click', function () {
-  inputFile.click();
-});
-
-inputFile.addEventListener("change", function () {
-  var files = inputFile.files;
-  handleFiles(files);
-});
+dropRegion.addEventListener('dragenter', preventDefault, false);
+dropRegion.addEventListener('dragleave', preventDefault, false);
+dropRegion.addEventListener('dragover', preventDefault, false);
+dropRegion.addEventListener('drop', preventDefault, false);
 
 function preventDefault(e) {
   e.preventDefault();
   e.stopPropagation();
 }
 
-dropRegion.addEventListener('dragenter', preventDefault, false)
-dropRegion.addEventListener('dragleave', preventDefault, false)
-dropRegion.addEventListener('dragover', preventDefault, false)
-dropRegion.addEventListener('drop', preventDefault, false)
+// open file selector when clicked on the drop region
+var inputFile = document.createElement("input");
+inputFile.type = "file";
+inputFile.accept = "image/*";
+dropRegion.addEventListener('click', ()=>{
+  inputFile.click();
+});
+
+inputFile.addEventListener("change", changeInputState);
+
+function changeInputState() {
+  var files = inputFile.files;
+  handleFiles(files);
+};
+
+dropRegion.addEventListener('drop', handleDrop, false);
 
 function handleDrop(e) {
   var dt = e.dataTransfer,
@@ -43,7 +46,7 @@ function handleDrop(e) {
   if (files.length) {
     handleFiles(files);
   } else {
-
+    // alert('Allowed to upload one image at a time');
     // check for img
     var html = dt.getData('text/html'),
       match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
@@ -53,7 +56,6 @@ function handleDrop(e) {
       return;
     }
   }
-
 
   function uploadImageFromURL(url) {
     var img = new Image;
@@ -77,12 +79,11 @@ function handleDrop(e) {
   }
 }
 
-dropRegion.addEventListener('drop', handleDrop, false);
-
 function handleFiles(files) {
   for (var i = 0, len = files.length; i < len; i++) {
-    if (validateImage(files[i]))
+    if (validateImage(files[i])){
       previewAnduploadImage(files[i]);
+    }
   }
 }
 
@@ -96,63 +97,88 @@ function validateImage(image) {
   return true;
 }
 
-function previewAnduploadImage(image) {
+const createImageDivContainer = () =>{
   // container
   var imgView = document.createElement("div");
   imgView.className = "image-view";
   imagePreviewRegion.appendChild(imgView);
   imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]);
+  return imgView;
+}
 
-  // previewing image
+const previewImage = (imageDivContainer) =>{
   var img = document.createElement("img");
   img.classList.add('source-image')
-  imgView.appendChild(img);
+  imageDivContainer.appendChild(img);
   getPalette.hidden = false;
   paletteColors.classList.add('hidden')
-  var dropMessage = document.getElementsByClassName('drop-message')[0];
-  dropMessage.style.display = "none";
+  document.getElementsByClassName('drop-message')[0].style.display = "none";
+  return img;
+}
+
+function previewAnduploadImage(image) {
+  //image container div is created
+  var imageDivContainer = createImageDivContainer();
+
+  // preview image
+  var imgPreview =  previewImage(imageDivContainer);
 
   // read the image...
   var reader = new FileReader();
   reader.onload = function (e) {
-    img.src = e.target.result;
+    imgPreview.src = e.target.result;
   }
   reader.readAsDataURL(image);
+  dropRegion.removeEventListener('click', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  });
+  
+  inputFile.removeEventListener("change", changeInputState);  
 }
 
-getPalette.addEventListener('click', function (e) {
+const dominantColorHolder = (value) => {
+  var dominantColor = document.createElement("div");
+  dominantColor.classList.add("dominant-color");
+  dominantColor.style.backgroundColor = value;
+  dominantColorGenerator.appendChild(dominantColor);
+}
+
+const colorPaletteHolder = (value) => {
+  var colorGenerator = document.createElement("div");
+  colorGenerator.classList.add("color-palette");
+  colorGenerator.style.backgroundColor = value;
+  colorPaletteGenerator.appendChild(colorGenerator);
+}
+
+const insertPalette = (hexValue) => {
+  for(let i = 0; i < hexValue.length; i++){
+    if(hexValue[i] == hexValue[0]){
+      dominantColorHolder(hexValue[i]);
+      colorPaletteHolder(hexValue[i]);
+    }
+    else{  
+      colorPaletteHolder(hexValue[i]);
+    }
+  }
+}
+
+getPalette.addEventListener('click', (e) => {
   const colorThief = new ColorThief();
   const image = document.querySelector('.source-image');
 
   if (image.complete) {
-    console.log(colorThief.getPalette(image,5));
+    // console.log(colorThief.getPalette(image,5));
     const paletteValue = colorThief.getPalette(image,5);
     const hexValue = [];
     paletteValue.forEach(item => {
-      // console.log(paletteValue[0], "item 1");
       const value = rgbToHex(item[0], item[1], item[2])
       hexValue.push(value);
-      console.log(value);
     })
     // const value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
-    for(let i = 0; i < hexValue.length; i++){
-      if(hexValue[i] == hexValue[0]){
-        var dominantColor = document.createElement("div");
-        dominantColor.classList.add("dominant-color");
-        dominantColor.style.backgroundColor = hexValue[i];
-        dominantColorGenerator.appendChild(dominantColor);
-        var colorGenerator = document.createElement("div");
-        colorGenerator.classList.add("color-palette");
-        colorGenerator.style.backgroundColor = hexValue[i];
-        colorPaletteGenerator.appendChild(colorGenerator);
-      }
-      else{  
-        var colorGenerator = document.createElement("div");
-        colorGenerator.classList.add("color-palette");
-        colorGenerator.style.backgroundColor = hexValue[i];
-        colorPaletteGenerator.appendChild(colorGenerator);
-      }
-    }
+
+    //To place the HexValue inside the specific Div
+    insertPalette(hexValue);
     getPalette.hidden="true";
     paletteColors.classList.remove("hidden");
   } else {
