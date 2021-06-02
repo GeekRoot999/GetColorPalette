@@ -147,9 +147,8 @@ const dominantColorHolder = (value) => {
   dominantColorGenerator.appendChild(dominantColor);
   console.log(dominantColor);
   dominantColor.addEventListener("click", (e)=>{
-    var x = e.currentTarget;
-    var color = x.style.backgroundColor;
-    copyToClipboard(color);
+    var x = e.currentTarget.style.backgroundColor;
+    copyToClipboard(x);
   });
 }
 
@@ -160,9 +159,8 @@ const colorPaletteHolder = (value) => {
   createPaletteText(value, colorGenerator);
   colorPaletteGenerator.appendChild(colorGenerator);
   colorGenerator.addEventListener("click", (e)=>{
-    var x = e.currentTarget;
-    var color = x.style.backgroundColor;
-    copyToClipboard(color);
+    var x = e.currentTarget.style.backgroundColor;
+    copyToClipboard(x);
   });
 }
 
