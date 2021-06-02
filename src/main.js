@@ -12,6 +12,8 @@ var // where files are dropped + file selector is opened
   var dominantColorGenerator = document.querySelector(".dominant-color-generator");
   var colorPaletteGenerator = document.querySelector(".color-palette-generator");
   var paletteColors = document.getElementById("palette-colors");
+  var dominantColor = document.getElementsByClassName(".dominant-color")[0];
+  // var colorPalette = document.querySelector(".color-palette");
 
 dropRegion.addEventListener('dragenter', preventDefault, false);
 dropRegion.addEventListener('dragleave', preventDefault, false);
@@ -141,14 +143,43 @@ const dominantColorHolder = (value) => {
   var dominantColor = document.createElement("div");
   dominantColor.classList.add("dominant-color");
   dominantColor.style.backgroundColor = value;
+  createDominantText(value, dominantColor);
   dominantColorGenerator.appendChild(dominantColor);
+  console.log(dominantColor);
+  dominantColor.addEventListener("click", (e)=>{
+    var x = e.currentTarget;
+    var color = x.style.backgroundColor;
+    copyToClipboard(color);
+  });
 }
 
 const colorPaletteHolder = (value) => {
   var colorGenerator = document.createElement("div");
   colorGenerator.classList.add("color-palette");
   colorGenerator.style.backgroundColor = value;
+  createPaletteText(value, colorGenerator);
   colorPaletteGenerator.appendChild(colorGenerator);
+  colorGenerator.addEventListener("click", (e)=>{
+    var x = e.currentTarget;
+    var color = x.style.backgroundColor;
+    copyToClipboard(color);
+  });
+}
+
+const createDominantText = (value, dominantColor) => {
+  var span = document.createElement("span");
+  span.classList.add('text');
+  span.style.color = value;
+  span.textContent = value;
+  dominantColor.appendChild(span);
+}
+
+const createPaletteText = (value, colorGenerator) => {
+  var span = document.createElement("span");
+  span.classList.add('text');
+  span.style.color = value;
+  span.textContent = value;
+  colorGenerator.appendChild(span);
 }
 
 const insertPalette = (hexValue) => {
@@ -192,3 +223,22 @@ const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
   const hex = x.toString(16)
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
+
+const copyToClipboard = (x) => {
+  const el = document.createElement('textarea');
+  el.value = x;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  const selected =
+    document.getSelection().rangeCount > 0 ? document.getSelection().getRangeAt(0) : false;
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  if (selected) {
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(selected);
+  }
+  alert("Hurray! Color copied to your Clipboard!");
+};

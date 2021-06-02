@@ -478,6 +478,8 @@ imagePreviewRegion = document.getElementById("image-preview"),
 var dominantColorGenerator = document.querySelector(".dominant-color-generator");
 var colorPaletteGenerator = document.querySelector(".color-palette-generator");
 var paletteColors = document.getElementById("palette-colors");
+var dominantColor = document.getElementsByClassName(".dominant-color")[0]; // var colorPalette = document.querySelector(".color-palette");
+
 dropRegion.addEventListener('dragenter', preventDefault, false);
 dropRegion.addEventListener('dragleave', preventDefault, false);
 dropRegion.addEventListener('dragover', preventDefault, false);
@@ -615,14 +617,43 @@ var dominantColorHolder = function dominantColorHolder(value) {
   var dominantColor = document.createElement("div");
   dominantColor.classList.add("dominant-color");
   dominantColor.style.backgroundColor = value;
+  createDominantText(value, dominantColor);
   dominantColorGenerator.appendChild(dominantColor);
+  console.log(dominantColor);
+  dominantColor.addEventListener("click", function (e) {
+    var x = e.currentTarget;
+    var color = x.style.backgroundColor;
+    copyToClipboard(color);
+  });
 };
 
 var colorPaletteHolder = function colorPaletteHolder(value) {
   var colorGenerator = document.createElement("div");
   colorGenerator.classList.add("color-palette");
   colorGenerator.style.backgroundColor = value;
+  createPaletteText(value, colorGenerator);
   colorPaletteGenerator.appendChild(colorGenerator);
+  colorGenerator.addEventListener("click", function (e) {
+    var x = e.currentTarget;
+    var color = x.style.backgroundColor;
+    copyToClipboard(color);
+  });
+};
+
+var createDominantText = function createDominantText(value, dominantColor) {
+  var span = document.createElement("span");
+  span.classList.add('text');
+  span.style.color = value;
+  span.textContent = value;
+  dominantColor.appendChild(span);
+};
+
+var createPaletteText = function createPaletteText(value, colorGenerator) {
+  var span = document.createElement("span");
+  span.classList.add('text');
+  span.style.color = value;
+  span.textContent = value;
+  colorGenerator.appendChild(span);
 };
 
 var insertPalette = function insertPalette(hexValue) {
@@ -666,6 +697,26 @@ var rgbToHex = function rgbToHex(r, g, b) {
     return hex.length === 1 ? '0' + hex : hex;
   }).join('');
 };
+
+var copyToClipboard = function copyToClipboard(x) {
+  var el = document.createElement('textarea');
+  el.value = x;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  var selected = document.getSelection().rangeCount > 0 ? document.getSelection().getRangeAt(0) : false;
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+
+  if (selected) {
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(selected);
+  }
+
+  alert("Hurray! Color copied to your Clipboard!");
+};
 },{"../node_modules/colorthief/dist/color-thief.mjs":"../node_modules/colorthief/dist/color-thief.mjs"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -694,7 +745,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49888" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62360" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
