@@ -262,6 +262,7 @@ a {
   border-radius: 50px;
   margin-top: 10px;
   position: relative;
+  cursor: pointer;
 }
 
 .container .palette-colors .dominant-color-generator .dominant-color .text {
@@ -294,6 +295,7 @@ a {
   margin-right: 10px;
   margin-top: 15px;
   position: relative;
+  cursor: pointer;
 }
 
 .container .palette-colors .color-palette-generator .color-palette .text {
