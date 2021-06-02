@@ -105,6 +105,9 @@ a{
       transition: 0.3s;
       margin: 0 auto;
       overflow: hidden;
+      @media screen and (max-width: 992px) {
+        width: 100%;
+      }
       &:hover {
         @include shadow(0, 0, 45px, 0, rgba(0, 0, 0, 0.1));
       }

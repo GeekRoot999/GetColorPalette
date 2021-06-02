@@ -112,6 +112,12 @@ a {
   overflow: hidden;
 }
 
+@media screen and (max-width: 992px) {
+  .container .app-body #drop-region {
+    width: 100%;
+  }
+}
+
 .container .app-body #drop-region:hover {
   -webkit-box-shadow: 0 0 45px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 45px 0 rgba(0, 0, 0, 0.1);
