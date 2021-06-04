@@ -238,5 +238,13 @@ const copyToClipboard = (x) => {
     document.getSelection().removeAllRanges();
     document.getSelection().addRange(selected);
   }
-  alert("Hurray! Color copied to your Clipboard!");
+  toastMessage();
 };
+
+const toastMessage = () => {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function(){ 
+      x.className = x.className.replace("show", ""); 
+    }, 3000);
+}

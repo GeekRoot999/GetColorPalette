@@ -713,7 +713,15 @@ var copyToClipboard = function copyToClipboard(x) {
     document.getSelection().addRange(selected);
   }
 
-  alert("Hurray! Color copied to your Clipboard!");
+  toastMessage();
+};
+
+var toastMessage = function toastMessage() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function () {
+    x.className = x.className.replace("show", "");
+  }, 3000);
 };
 },{"../node_modules/colorthief/dist/color-thief.mjs":"../node_modules/colorthief/dist/color-thief.mjs"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -743,7 +751,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62360" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56369" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

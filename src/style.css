@@ -245,8 +245,8 @@ a {
 
 .container .palette-colors .dominant-color-generator {
   margin-right: 40px;
-  margin-bottom: 10px;
-  max-height: 90px;
+  margin-bottom: 30px;
+  max-height: 120px;
 }
 
 .container .palette-colors .dominant-color-generator span {
@@ -257,8 +257,8 @@ a {
 }
 
 .container .palette-colors .dominant-color-generator .dominant-color {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 50px;
   margin-top: 10px;
   position: relative;
@@ -272,11 +272,17 @@ a {
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  display: none;
+}
+
+.container .palette-colors .dominant-color-generator .dominant-color:hover .text {
+  display: block;
+  color: white !important;
 }
 
 .container .palette-colors .color-palette-generator {
   margin-right: 40px;
-  min-height: 90px;
+  min-height: 140px;
 }
 
 .container .palette-colors .color-palette-generator span {
@@ -288,8 +294,8 @@ a {
 }
 
 .container .palette-colors .color-palette-generator .color-palette {
-  width: 45px;
-  height: 45px;
+  width: 75px;
+  height: 75px;
   border-radius: 50px;
   display: inline-block;
   margin-right: 10px;
@@ -305,5 +311,77 @@ a {
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  display: none;
+}
+
+.container .palette-colors .color-palette-generator .color-palette:hover .text {
+  display: block;
+  color: white !important;
+}
+
+.container #snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px 8px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+}
+
+.container #snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 /*# sourceMappingURL=style.css.map */
