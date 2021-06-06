@@ -621,7 +621,7 @@ var dominantColorHolder = function dominantColorHolder(value) {
   dominantColorGenerator.appendChild(dominantColor);
   console.log(dominantColor);
   dominantColor.addEventListener("click", function (e) {
-    var x = e.currentTarget.style.backgroundColor;
+    var x = value;
     copyToClipboard(x);
   });
 };
@@ -633,7 +633,7 @@ var colorPaletteHolder = function colorPaletteHolder(value) {
   createPaletteText(value, colorGenerator);
   colorPaletteGenerator.appendChild(colorGenerator);
   colorGenerator.addEventListener("click", function (e) {
-    var x = e.currentTarget.style.backgroundColor;
+    var x = value;
     copyToClipboard(x);
   });
 };

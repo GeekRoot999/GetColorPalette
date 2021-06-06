@@ -235,7 +235,7 @@ a{
         .text{
           position: absolute;
           left: 50%;
-          font-size: 10px;
+          font-size: 12px;
           top: 50%;
           -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
@@ -245,6 +245,7 @@ a{
           .text{
             display: block;
             color: white !important;
+            font-weight: 900;
           }
         }
       }
@@ -271,7 +272,7 @@ a{
         .text{
           position: absolute;
           left: 50%;
-          font-size: 10px;
+          font-size: 12px;
           top: 50%;
           -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
@@ -281,6 +282,7 @@ a{
           .text{
             display: block;
             color: white !important;
+            font-weight: 900;
           }
         }
       }

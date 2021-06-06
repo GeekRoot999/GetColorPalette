@@ -268,7 +268,7 @@ a {
 .container .palette-colors .dominant-color-generator .dominant-color .text {
   position: absolute;
   left: 50%;
-  font-size: 10px;
+  font-size: 12px;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -278,6 +278,7 @@ a {
 .container .palette-colors .dominant-color-generator .dominant-color:hover .text {
   display: block;
   color: white !important;
+  font-weight: 900;
 }
 
 .container .palette-colors .color-palette-generator {
@@ -307,7 +308,7 @@ a {
 .container .palette-colors .color-palette-generator .color-palette .text {
   position: absolute;
   left: 50%;
-  font-size: 10px;
+  font-size: 12px;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -317,6 +318,7 @@ a {
 .container .palette-colors .color-palette-generator .color-palette:hover .text {
   display: block;
   color: white !important;
+  font-weight: 900;
 }
 
 .container #snackbar {
