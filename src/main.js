@@ -12,8 +12,6 @@ var // where files are dropped + file selector is opened
   var dominantColorGenerator = document.querySelector(".dominant-color-generator");
   var colorPaletteGenerator = document.querySelector(".color-palette-generator");
   var paletteColors = document.getElementById("palette-colors");
-  var dominantColor = document.getElementsByClassName(".dominant-color")[0];
-  // var colorPalette = document.querySelector(".color-palette");
 
 dropRegion.addEventListener('dragenter', preventDefault, false);
 dropRegion.addEventListener('dragleave', preventDefault, false);
@@ -135,7 +133,7 @@ function previewAnduploadImage(image) {
     e.stopPropagation();
     e.preventDefault();
   });
-  
+  inputFile.removeAttribute("type");
   inputFile.removeEventListener("change", changeInputState);  
 }
 
