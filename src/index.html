@@ -29,30 +29,40 @@
                 </div>
             </header>
             <section class="app-body">
+
+                <!-- Drop Region -->
                 <div id="drop-region">
-                    <div class="drop-message">
+                    <div id="dropMessage" class="drop-message">
                         Drag & Drop images or click to upload
                         <!-- <input type="file" id="upload" /> -->
                     </div>
                     <div id="image-preview">
-                      <div class="option-buttons">
-                        <button class="change-image" type="button">Change Image</button>
-                        <button class="remove-image" type="button">Remove Image</button>
-                      </div>
                     </div>
                 </div>
-                <div class="action-buttons">
-                    <button id="getPalette" class="get_palette" hidden="true">Get your Palette!</button>
-                </div>
+
             </section>
+
+            <!-- get Palette action button -->
+            <section class="palette-button-container">
+                <button id="getPalette" class="get_palette" hidden="true">Get your Palette!</button>
+            </section>
+
+            <!-- Palette Generated Container -->
             <section id="palette-colors" class="palette-colors hidden">
                 <div class="dominant-color-generator">
                     <span>DOMINANT COLOR</span>
+                    <div id="dominantColorContainer"></div>
                 </div>
                 <div class="color-palette-generator">
                     <span>COLOR PALETTE</span>
-                    
+                    <div id="colorPaletteContainer"></div>
                 </div>
+            </section>
+
+            <!-- change and remove button Container -->
+            <section class="action-button-container" id="action-buttons" hidden>
+                <button id="changeImage" class="change-image-button">Change Image</button>
+                <button id="removeImage" class="remove-image-button">Remove Image</button>
             </section>
             <!-- Tooltips -->
             <div id="snackbar">Color Copied!</div>

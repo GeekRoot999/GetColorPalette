@@ -474,9 +474,12 @@ var // where files are dropped + file selector is opened
 dropRegion = document.getElementById("drop-region"),
     // where images are previewed
 imagePreviewRegion = document.getElementById("image-preview"),
-    getPalette = document.getElementById("getPalette");
-var dominantColorGenerator = document.querySelector(".dominant-color-generator");
-var colorPaletteGenerator = document.querySelector(".color-palette-generator");
+    getPalette = document.getElementById("getPalette"),
+    actionButtons = document.getElementById("action-buttons"),
+    changeImage = document.getElementById('changeImage'),
+    removeImage = document.getElementById('removeImage');
+var dominantColorGenerator = document.querySelector("#dominantColorContainer");
+var colorPaletteGenerator = document.querySelector("#colorPaletteContainer");
 var paletteColors = document.getElementById("palette-colors");
 dropRegion.addEventListener('dragenter', preventDefault, false);
 dropRegion.addEventListener('dragleave', preventDefault, false);
@@ -576,6 +579,7 @@ var createImageDivContainer = function createImageDivContainer() {
   // container
   var imgView = document.createElement("div");
   imgView.className = "image-view";
+  imgView.setAttribute('id', 'imageView');
   imagePreviewRegion.appendChild(imgView);
   imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]);
   return imgView;
@@ -587,12 +591,20 @@ var previewImage = function previewImage(imageDivContainer) {
   imageDivContainer.appendChild(img);
   getPalette.hidden = false;
   paletteColors.classList.add('hidden');
-  document.getElementsByClassName('drop-message')[0].style.display = "none";
+  document.querySelector('#dropMessage').style.display = "none";
   return img;
 };
 
 function previewAnduploadImage(image) {
-  //image container div is created
+  if (imagePreviewRegion.childElementCount > 0) {
+    imagePreviewRegion.removeChild(document.querySelector('#imageView'));
+    getPalette.hidden = true;
+    paletteColors.classList.add('hidden');
+    document.querySelector('#dropMessage').style.display = "flex";
+    actionButtons.hidden = true;
+  } //image container div is created
+
+
   var imageDivContainer = createImageDivContainer(); // preview image
 
   var imgPreview = previewImage(imageDivContainer); // read the image...
@@ -609,7 +621,6 @@ function previewAnduploadImage(image) {
     e.preventDefault();
   });
   inputFile.removeAttribute("type");
-  inputFile.removeEventListener("change", changeInputState);
 }
 
 var dominantColorHolder = function dominantColorHolder(value) {
@@ -617,8 +628,8 @@ var dominantColorHolder = function dominantColorHolder(value) {
   dominantColor.classList.add("dominant-color");
   dominantColor.style.backgroundColor = value;
   createDominantText(value, dominantColor);
-  dominantColorGenerator.appendChild(dominantColor);
-  console.log(dominantColor);
+  dominantColorGenerator.appendChild(dominantColor); // console.log(dominantColor);
+
   dominantColor.addEventListener("click", function (e) {
     var x = value;
     copyToClipboard(x);
@@ -667,9 +678,9 @@ var insertPalette = function insertPalette(hexValue) {
 getPalette.addEventListener('click', function (e) {
   var colorThief = new _colorThief.default();
   var image = document.querySelector('.source-image');
+  resetColorThiefPalettes();
 
   if (image.complete) {
-    // console.log(colorThief.getPalette(image,5));
     var paletteValue = colorThief.getPalette(image, 5);
     var hexValue = [];
     paletteValue.forEach(function (item) {
@@ -679,14 +690,16 @@ getPalette.addEventListener('click', function (e) {
     //To place the HexValue inside the specific Div
 
     insertPalette(hexValue);
-    getPalette.hidden = "true";
+    getPalette.hidden = true;
     paletteColors.classList.remove("hidden");
-  } else {
-    image.addEventListener('load', function () {
-      colorThief.getPalette(image, 5);
-    });
+    actionButtons.hidden = false;
   }
 });
+
+var resetColorThiefPalettes = function resetColorThiefPalettes() {
+  dominantColorGenerator.innerHTML = '';
+  colorPaletteGenerator.innerHTML = '';
+};
 
 var rgbToHex = function rgbToHex(r, g, b) {
   return '#' + [r, g, b].map(function (x) {
@@ -713,7 +726,8 @@ var copyToClipboard = function copyToClipboard(x) {
   }
 
   toastMessage();
-};
+}; // Toast message
+
 
 var toastMessage = function toastMessage() {
   var x = document.getElementById("snackbar");
@@ -721,7 +735,22 @@ var toastMessage = function toastMessage() {
   setTimeout(function () {
     x.className = x.className.replace("show", "");
   }, 3000);
-};
+}; //Upload new Image
+
+
+changeImage.addEventListener('click', function () {
+  inputFile.setAttribute("type", "file");
+  inputFile.click();
+}); // Remove Image
+
+removeImage.addEventListener('click', function () {
+  imagePreviewRegion.removeChild(document.querySelector('#imageView'));
+  getPalette.hidden = true;
+  paletteColors.classList.add('hidden');
+  document.querySelector('#dropMessage').style.display = "flex";
+  actionButtons.hidden = true;
+  inputFile.setAttribute("type", "file");
+});
 },{"../node_modules/colorthief/dist/color-thief.mjs":"../node_modules/colorthief/dist/color-thief.mjs"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -750,7 +779,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56369" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61575" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

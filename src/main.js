@@ -7,10 +7,13 @@ var // where files are dropped + file selector is opened
   dropRegion = document.getElementById("drop-region"),
   // where images are previewed
   imagePreviewRegion = document.getElementById("image-preview"),
-  getPalette = document.getElementById("getPalette");
+  getPalette = document.getElementById("getPalette"),
+  actionButtons = document.getElementById("action-buttons"),
+  changeImage = document.getElementById('changeImage'),
+  removeImage = document.getElementById('removeImage');
 
-  var dominantColorGenerator = document.querySelector(".dominant-color-generator");
-  var colorPaletteGenerator = document.querySelector(".color-palette-generator");
+  var dominantColorGenerator = document.querySelector("#dominantColorContainer");
+  var colorPaletteGenerator = document.querySelector("#colorPaletteContainer");
   var paletteColors = document.getElementById("palette-colors");
 
 dropRegion.addEventListener('dragenter', preventDefault, false);
@@ -27,7 +30,7 @@ function preventDefault(e) {
 var inputFile = document.createElement("input");
 inputFile.type = "file";
 inputFile.accept = "image/*";
-dropRegion.addEventListener('click', ()=>{
+dropRegion.addEventListener('click', () => {
   inputFile.click();
 });
 
@@ -101,6 +104,7 @@ const createImageDivContainer = () =>{
   // container
   var imgView = document.createElement("div");
   imgView.className = "image-view";
+  imgView.setAttribute('id', 'imageView');
   imagePreviewRegion.appendChild(imgView);
   imagePreviewRegion.insertBefore(imgView, imagePreviewRegion.childNodes[0]);
   return imgView;
@@ -111,15 +115,22 @@ const previewImage = (imageDivContainer) =>{
   img.classList.add('source-image')
   imageDivContainer.appendChild(img);
   getPalette.hidden = false;
-  paletteColors.classList.add('hidden')
-  document.getElementsByClassName('drop-message')[0].style.display = "none";
+  paletteColors.classList.add('hidden');
+  document.querySelector('#dropMessage').style.display = "none";
   return img;
 }
 
 function previewAnduploadImage(image) {
+  
+  if(imagePreviewRegion.childElementCount > 0){
+    imagePreviewRegion.removeChild(document.querySelector('#imageView'));
+    getPalette.hidden = true;
+    paletteColors.classList.add('hidden');
+    document.querySelector('#dropMessage').style.display = "flex";
+    actionButtons.hidden = true;
+  }
   //image container div is created
   var imageDivContainer = createImageDivContainer();
-
   // preview image
   var imgPreview =  previewImage(imageDivContainer);
 
@@ -134,7 +145,8 @@ function previewAnduploadImage(image) {
     e.preventDefault();
   });
   inputFile.removeAttribute("type");
-  inputFile.removeEventListener("change", changeInputState);  
+  
+  
 }
 
 const dominantColorHolder = (value) => {
@@ -143,7 +155,7 @@ const dominantColorHolder = (value) => {
   dominantColor.style.backgroundColor = value;
   createDominantText(value, dominantColor);
   dominantColorGenerator.appendChild(dominantColor);
-  console.log(dominantColor);
+  // console.log(dominantColor);
   dominantColor.addEventListener("click", (e)=>{
     var x = value;
     copyToClipboard(x);
@@ -193,27 +205,28 @@ const insertPalette = (hexValue) => {
 getPalette.addEventListener('click', (e) => {
   const colorThief = new ColorThief();
   const image = document.querySelector('.source-image');
-
+  resetColorThiefPalettes();
   if (image.complete) {
-    // console.log(colorThief.getPalette(image,5));
     const paletteValue = colorThief.getPalette(image,5);
-    const hexValue = [];
+    let hexValue= [];
     paletteValue.forEach(item => {
-      const value = rgbToHex(item[0], item[1], item[2])
+      let value = rgbToHex(item[0], item[1], item[2])
       hexValue.push(value);
     })
     // const value = rgbToHex(paletteValue[0][0], paletteValue[0][1], paletteValue[0][2]);
 
     //To place the HexValue inside the specific Div
     insertPalette(hexValue);
-    getPalette.hidden="true";
+    getPalette.hidden= true;
     paletteColors.classList.remove("hidden");
-  } else {
-    image.addEventListener('load', function() {
-      colorThief.getPalette(image, 5)
-    });
+    actionButtons.hidden = false;
   }
 });
+
+const resetColorThiefPalettes = () => {
+  dominantColorGenerator.innerHTML = '';
+  colorPaletteGenerator.innerHTML = '';
+}
 
 const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
   const hex = x.toString(16)
@@ -239,6 +252,7 @@ const copyToClipboard = (x) => {
   toastMessage();
 };
 
+// Toast message
 const toastMessage = () => {
     var x = document.getElementById("snackbar");
     x.className = "show";
@@ -246,3 +260,19 @@ const toastMessage = () => {
       x.className = x.className.replace("show", ""); 
     }, 3000);
 }
+
+//Upload new Image
+changeImage.addEventListener('click', () => {
+  inputFile.setAttribute("type", "file");
+  inputFile.click(); 
+});
+
+// Remove Image
+removeImage.addEventListener('click', () => {
+  imagePreviewRegion.removeChild(document.querySelector('#imageView'));
+  getPalette.hidden = true;
+  paletteColors.classList.add('hidden');
+  document.querySelector('#dropMessage').style.display = "flex";
+  actionButtons.hidden = true;
+  inputFile.setAttribute("type", "file");
+});

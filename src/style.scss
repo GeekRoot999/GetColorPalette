@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 //Colors
-
 $grey : #E5E5E5;
 $blue : #4285F4;
 $bluish-grey : #88A3B2;
@@ -93,18 +92,19 @@ a{
       padding: 0;
     }
     #drop-region {
-      background: linear-gradient(109.03deg, #dfe1e2 -53.53%, #fdffff 138.3%);
+      background: #fff;
       @include b-radius(2px);
       @include shadow(-30px, -30px, 60px, 0px, #ffffff4d);
       @include shadow(30px, 30px, 60px, 0px, #c9cbcd4d);
-      width: 75%;
-      height: 25rem;
+      // width: 75%;
+      // height: 25rem;
       padding: 20px;
       text-align: center;
       cursor: pointer;
       transition: 0.3s;
       margin: 0 auto;
       overflow: hidden;
+      aspect-ratio: 2/1;
       @media screen and (max-width: 992px) {
         width: 100%;
       }
@@ -132,9 +132,6 @@ a{
               opacity: 1;
             }
           }
-          ~ .image-view{
-            display: none;
-          }
           img {
             max-width: 100%;
             width: 100%;
@@ -142,61 +139,21 @@ a{
             object-fit: cover;
           }
         }
-        .option-buttons{
-          position: absolute;
-          top: 0;
-          // left: 50%;
-          // transform: translate(-50%, -50%);
-          opacity: 0;
-          height: 100%;
-          width: 100%;
-          // display: flex;
-          // justify-content: center;
-          // align-items: center;
-          // flex-wrap: wrap;
-          .change-image{
-            background: rgba(66, 133, 244, 0.2);
-            border: 1px solid $blue;
-            color: $blue;
-            padding: 8px 16px;
-            outline: none;
-            box-shadow: none;
-            cursor: pointer;
-            @include b-radius(20px);
-            margin-right: 5px;
-          }
-          .remove-image{
-            background: rgba(234, 67, 53, 0.2);
-            border: 1px solid $red;
-            color: $red;
-            padding: 8px 16px;
-            outline: none;
-            box-shadow: none;
-            cursor: pointer;
-            @include b-radius(20px);
-            margin-left: 5px;
-          }
-          // &:hover {
-          //   background: rgba(0, 0, 0, .4);
-          //   opacity: 1;
-          // }
-        }
-        
       }
     }
-    .action-buttons {
-      text-align: center;
-      margin-top: 25px;
-      .get_palette {
-        color: $white;
-        background-color: $blue;
-        border: none;
-        outline: none;
-        box-shadow: none;
-        @include b-radius(20px);
-        padding: 12px 30px;
-        cursor: pointer;
-      }
+  }
+  .palette-button-container {
+    text-align: center;
+    margin-top: 25px;
+    .get_palette {
+      color: $white;
+      background-color: $blue;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      @include b-radius(20px);
+      padding: 12px 30px;
+      cursor: pointer;
     }
   }
   .palette-colors{
@@ -286,6 +243,36 @@ a{
           }
         }
       }
+    }
+  }
+  .action-button-container{
+    text-align: center;
+    margin: 20px 0;
+    .change-image-button{
+      background: rgba(66, 133, 244, 0.2);
+      color: #4285F4;
+      border-radius: 50px;
+      box-shadow: none;
+      outline: none;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid #4285f4;
+      padding: 8px 16px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    .remove-image-button{
+      color: #EA4335;
+      background: rgba(234, 67, 53, 0.2);
+      border-radius: 50px;
+      box-shadow: none;
+      outline: none;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid #EA4335;
+      padding: 8px 16px;
+      margin-right: 5px;
+      cursor: pointer;
     }
   }
   #snackbar {
